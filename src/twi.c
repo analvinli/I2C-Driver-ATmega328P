@@ -21,6 +21,13 @@ ISR(TWI_vect){
     switch(TW_STATUS){
         case TW_START:
         case TW_REP_START:
+            twi_vars.state = TWI_NORMAL;
+            current_msg = twi_vars.msg++;
+            --twi_vars.msg_count;
+            TWDR = current_msg->address;//tx address
+            TWCR &= ~(1<<TWSTA);
+            return;
+            
         case TW_MT_SLA_ACK://SLA+W, ACK
         case TW_MT_DATA_ACK://DATA, ACK
         case TW_MR_SLA_ACK://sla+r 
