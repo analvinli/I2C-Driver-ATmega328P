@@ -27,8 +27,11 @@ ISR(TWI_vect){
             TWDR = current_msg->address;//tx address
             TWCR &= ~(1<<TWSTA);
             return;
-            
+
         case TW_MT_SLA_ACK://SLA+W, ACK
+            TWDR = *(current_msg->buffer);//send data
+            current_msg.size--;
+            return;
         case TW_MT_DATA_ACK://DATA, ACK
         case TW_MR_SLA_ACK://sla+r 
         case TW_MR_DATA_ACK://data rx
