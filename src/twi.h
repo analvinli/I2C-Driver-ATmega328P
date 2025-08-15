@@ -21,7 +21,7 @@ typedef struct {
 } twi_message_t;
 
 
-twi_status_t twi_init(const uint8_t scl_frequency);
 static int calc_bitrate(const uint8_t scl_frequency);
+twi_status_t twi_init(const uint8_t scl_frequency);
 
 #endif
