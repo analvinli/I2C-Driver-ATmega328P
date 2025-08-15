@@ -69,6 +69,10 @@ ISR(TWI_vect){
 
  	    case TW_NO_INFO:
  	    case TW_BUS_ERROR:
+            //any error will cause a stop
+            TWCR = (1<<TWINT)|(1<<TWSTO)|(1<<TWEN);
+            twi_vars.state = TWI_FAILURE;
+            return;
     }
 }
 
