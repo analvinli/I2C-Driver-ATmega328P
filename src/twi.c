@@ -33,6 +33,19 @@ ISR(TWI_vect){
             current_msg.size--;
             return;
         case TW_MT_DATA_ACK://DATA, ACK
+            if(current_msg.size > 0){//moar stuff to send
+                TWDR = *(++(current_msg->buffer));//increment buffer ptr, then dereference for tx
+                current_msg.size--;
+                return;
+            }else if(twi_vars.msg_count>0){
+                //repeated start, might not work mpu5060
+                TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN)|(1<<TWIE);
+                return;
+            }
+            TWCR = (1<<TWINT)|(1<<TWSTO)|(1<<TWEN);
+            twi_vars.state = TWI_SUCCESS;
+            return;
+        
         case TW_MR_SLA_ACK://sla+r 
         case TW_MR_DATA_ACK://data rx
 
