@@ -105,3 +105,7 @@ twi_status_t twi_enqueue(twi_message_t *messages, size_t count){
     TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN)|(1<<TWIE);
     return TWI_SUCCESS;
 }
+
+twi_status_t twi_status(void){
+    return twi_vars.state;
+}
