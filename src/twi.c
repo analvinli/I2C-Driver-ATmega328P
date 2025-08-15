@@ -13,10 +13,6 @@ typedef struct{
 static volatile twi_variables_t twi_vars;
 static volatile twi_message_t current_msg;
 
-static int calc_bitrate(const uint8_t scl_frequency){
-    return ((F_CPU/scl_frequency)-16)/2; // assume TWPS or prescaler = 1
-}
-
 ISR(TWI_vect){
     switch(TW_STATUS){
         case TW_START:
@@ -74,6 +70,10 @@ ISR(TWI_vect){
             twi_vars.state = TWI_FAILURE;
             return;
     }
+}
+
+static int calc_bitrate(const uint8_t scl_frequency){
+    return ((F_CPU/scl_frequency)-16)/2; // assume TWPS or prescaler = 1
 }
 
 twi_status_t twi_init(const uint8_t scl_frequency){
