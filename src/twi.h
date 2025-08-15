@@ -23,5 +23,6 @@ typedef struct {
 
 static int calc_bitrate(const uint8_t scl_frequency);
 twi_status_t twi_init(const uint8_t scl_frequency);
+twi_status_t twi_enqueue(twi_message_t *messages, size_t count);
 
 #endif
