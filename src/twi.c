@@ -47,7 +47,19 @@ ISR(TWI_vect){
             return;
         
         case TW_MR_SLA_ACK://sla+r 
+            //start of recieving
+            static uint8_t *endofbuffer = current_msg.buffer+current_msg.size;
+            return;
         case TW_MR_DATA_ACK://data rx
+            //copy stuff to buffer
+            *buffer = TWDR;//deref buffer and set it equal to data
+            if(buffer == endofbuffer){//if we at end of buffer array
+                TWCR = (1<<TWINT)|(1<<TWSTO)|(1<<TWEN);
+                twi_vars.state = TWI_SUCCESS;
+                return;
+            }
+            buffer++;
+            return;
 
         case TW_MT_ARB_LOST:
         case TW_MR_SLA_NACK:
