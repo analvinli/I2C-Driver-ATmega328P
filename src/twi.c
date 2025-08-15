@@ -32,3 +32,23 @@ twi_status_t twi_init(const uint8_t scl_frequency){
 
     return TWI_NORMAL;
 }
+
+ISR(TWI_vect){
+    switch(TW_STATUS){
+        case TW_START:
+        case TW_REP_START:
+        case TW_MT_SLA_ACK://SLA+W, ACK
+        case TW_MT_DATA_ACK://DATA, ACK
+        case TW_MR_SLA_ACK://sla+r 
+        case TW_MR_DATA_ACK://data rx
+
+        case TW_MT_ARB_LOST:
+        case TW_MR_SLA_NACK:
+
+        case TW_MT_DATA_NACK:
+ 	    case TW_MR_DATA_NACK:
+
+ 	    case TW_NO_INFO:
+ 	    case TW_BUS_ERROR:
+    }
+}
